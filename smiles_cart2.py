@@ -13,6 +13,8 @@ from numpy import genfromtxt
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from rdkit.Chem import PyMol
+from rdkit.Chem import Draw
+
 # could use novel_score from spektral
 #from pysmiles import read_smiles
 from numpy import savetxt
@@ -577,6 +579,10 @@ def make_conf_input_dir(num_u_confs, group=0):
 def build_confs(smiles, conf_num=10, element_dict=element_dict):
 
     m = Chem.MolFromSmiles(smiles)
+    tmpl = Chem.MolFromSmarts(smiles)
+    print(AllChem.Compute2DCoords(tmpl))
+    print(AllChem.Compute2DCoords(m))
+    print(AllChem.GenerateDepictionMatching2DStructure(m, m))
     m = Chem.AddHs(m, addCoords=True)   # uncomment for hydrogen filling
 
 
@@ -753,15 +759,15 @@ def sdf_dict_cart(sdf_dict, num_atoms, element_dict, conf_num, group=0):
 
 
 # single - (or blank), double = , triple #
-
+#SMILESSSS
 #smiles = 'OC(=O)C(C=O)(C1NC)C(NC4CCCCCCC3CCCC(CCCCCC(CCC(CCC4CC)C)CCCCCCCC)CCC2)(CCC(C=O)NO2)COOC(CCCC3C)OOO(C1=O)'
 #smiles = 'C1CCCCC1N(C)C(=O)C(=CI)C(O)C=C'
 #smiles = 'C1(C(O)(C)(C))=CC=CC=C1CCC(SCC2CC2CC(=O)O)C3=CC=CC(=C3)C=CC4=CC=C(C5=N4)C=CC(Cl)=C5' #Montelukast
-smiles = 'C1=CC=CC=C1C(=O)NC(C2=CC=CC=C2)C(O)C(=O)OC(C(C)-C3(C(OC(=O)C))C(=O)C4(C)C(O)CC(OC5)C5(OC(=O)C)C4C7(OC(=O)C6=CC=CC=C6))CC7(O)(C3(C)(C))' # Paclitaxel
+#smiles = 'C1=CC=CC=C1C(=O)NC(C2=CC=CC=C2)C(O)C(=O)OC(C(C)-C3(C(OC(=O)C))C(=O)C4(C)C(O)CC(OC5)C5(OC(=O)C)C4C7(OC(=O)C6=CC=CC=C6))CC7(O)(C3(C)(C))' # Paclitaxel
 #smiles = 'C1CCCC1CSCCCCC'
 #smiles = 'OC(=O)O'
 #smiles = 'NC(B)(Cl)O'
-
+smiles = 'C1=CC=CC=C1'
 """ def randomSmiles(m1):
     m1.SetProp("_canonicalRankingNumbers", "True")
     idxs = list(range(0,m1.GetNumAtoms()))
@@ -773,13 +779,15 @@ smiles = 'C1=CC=CC=C1C(=O)NC(C2=CC=CC=C2)C(O)C(=O)OC(C(C)-C3(C(OC(=O)C))C(=O)C4(
 def molecular_formula_input(smiles):
 
     m1 = Chem.MolFromSmiles(smiles)
+    print(AllChem.Compute2DCoords(m1))	
+    print(AllChem.GenerateDepictionMatching2DStructure(m1))
     print(m1)
     s = set()
     for i in range(1000):
         smiles = randomSmiles(m1)
         s.add(smiles)
     s = list(s)
-    return s
+    return s 
 
 
 
